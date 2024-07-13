@@ -3,14 +3,12 @@
 #include <string>
 #include <thread>
 
-unsigned int remaining_seconds;
-
-void timer() {
+void timer(unsigned int *p_remaining_seconds) {
   using namespace std::chrono_literals;
 
-  while (remaining_seconds != 0) {
-    std::cout << remaining_seconds << "\n";
-    remaining_seconds--;
+  while (*p_remaining_seconds != 0) {
+    std::cout << *p_remaining_seconds << "\n";
+    *p_remaining_seconds -= 1;
     std::this_thread::sleep_for(1s);
   }
 }
@@ -21,11 +19,13 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  remaining_seconds = abs(std::stoi(argv[1]));
+  unsigned int remaining_seconds;
+  auto *p_remaining_seconds = &remaining_seconds;
+  *p_remaining_seconds = abs(std::stoi(argv[1]));
 
-  std::thread worker(timer);
+  std::thread timer_thread(timer, &remaining_seconds);
 
-  worker.join();
+  timer_thread.join();
 
   return EXIT_SUCCESS;
 }

@@ -22,7 +22,6 @@ int main(int argc, char *argv[]) {
   const unsigned int SECONDS = abs(std::stoi(argv[1]));
 
   unsigned int remaining_seconds = SECONDS;
-  auto *p_remaining_seconds = &remaining_seconds;
 
   std::thread timer_thread(timer, &remaining_seconds);
 
@@ -34,10 +33,10 @@ int main(int argc, char *argv[]) {
 
     switch (choice) {
     case 'r':
-      *p_remaining_seconds = SECONDS;
+      remaining_seconds = SECONDS;
       break;
     case 'e':
-      *p_remaining_seconds = 0;
+      remaining_seconds = 0;
       done = true;
     }
   }

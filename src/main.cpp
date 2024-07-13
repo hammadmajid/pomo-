@@ -19,11 +19,28 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  unsigned int remaining_seconds;
+  const unsigned int SECONDS = abs(std::stoi(argv[1]));
+
+  unsigned int remaining_seconds = SECONDS;
   auto *p_remaining_seconds = &remaining_seconds;
-  *p_remaining_seconds = abs(std::stoi(argv[1]));
 
   std::thread timer_thread(timer, &remaining_seconds);
+
+  bool done = false;
+  while (!done) {
+
+    char choice;
+    std::cin >> choice;
+
+    switch (choice) {
+    case 'r':
+      *p_remaining_seconds = SECONDS;
+      break;
+    case 'e':
+      *p_remaining_seconds = 0;
+      done = true;
+    }
+  }
 
   timer_thread.join();
 

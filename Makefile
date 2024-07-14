@@ -3,7 +3,7 @@ build:
 	make -C target
 
 run: build
-	./target/timer
+	./target/pomo++ $(filter-out $@,$(MAKECMDGOALS))
 
 clean:
 	rm -rf target/

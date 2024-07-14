@@ -1,6 +1,6 @@
 build:
-	mkdir target -p
-	clang++ src/main.cpp -o target/timer -Wall
+	cmake -S . -B target
+	make -C target
 
 run: build
 	./target/timer
